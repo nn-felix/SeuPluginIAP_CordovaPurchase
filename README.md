@@ -1,0 +1,1 @@
+# SeuPluginIAP_CordovaPurchase
