@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="com.seudominio.seupluginiap.cordovapurchase"
+        version="1.0.0">
+    <name>SeuPluginIAP_CordovaPurchase</name>
+    <description>Plugin OutSystems para In-App Purchases usando cordova-plugin-purchase.</description>
+    <author>Seu Nome</author>
+    <license>Apache 2.0</license>
+    <keywords>outsystems,cordova,iap,inapppurchase,payments,cordova-plugin-purchase</keywords>
+
+    <js-module src="www/SeuPluginIAP_CordovaPurchase.js" name="SeuPluginIAP_CordovaPurchase">
+        <clobbers target="cordova.plugins.SeuPluginIAP_CordovaPurchase" />
+    </js-module>
+
+    <dependency id="cordova-plugin-purchase" version="13.12.1" />
+
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            </config-file>
+    </platform>
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            </config-file>
+    </platform>
+
+    <outsystems>
+        <Plugin>
+            <Name>SeuPluginIAP_CordovaPurchase</Name>
+            <Version>1.0.0</Version>
+            <Description>Plugin para In-App Purchases com cordova-plugin-purchase.</Description>
+        </Plugin>
+        <Actions>
+            <Action>
+                <Name>InitializeAndRegisterProducts</Name>
+                <Description>Inicializa o sistema de IAP, regista os produtos e configura o validador.</Description>
+                <JavaScript>cordova.plugins.SeuPluginIAP_CordovaPurchase.initializeAndRegisterProducts($parameters.ProductsJson, $parameters.ValidatorURL, $actions.OnInitSuccess, $actions.OnInitError, $actions.OnProductUpdateEvent, $actions.OnPurchaseApprovedEvent, $actions.OnPurchaseVerifiedEvent, $actions.OnPurchaseCancelledEvent, $actions.OnPurchaseErrorEvent);</JavaScript>
+                <Callback>OnInitSuccess</Callback>
+                <Callback>OnInitError</Callback>
+                <Callback>OnProductUpdateEvent</Callback>
+                <Callback>OnPurchaseApprovedEvent</Callback>
+                <Callback>OnPurchaseVerifiedEvent</Callback> <Callback>OnPurchaseCancelledEvent</Callback>
+                <Callback>OnPurchaseErrorEvent</Callback>
+                <Parameters>
+                    <Parameter>
+                        <Name>ProductsJson</Name>
+                        <DataType>Text</DataType>
+                        <Description>String JSON com a lista de produtos. Ex: '[{"id": "meu_produto_premium", "type": "non consumable", "platform": "googleplay", "alias": "Meu Produto Premium"}, ...]'</Description>
+                    </Parameter>
+                    <Parameter>
+                        <Name>ValidatorURL</Name>
+                        <DataType>Text</DataType>
+                        <Description>URL do seu servidor de validação de recibos (opcional, mas recomendado). Deixe vazio se não usar.</Description>
+                    </Parameter>
+                </Parameters>
+            </Action>
+            <Action>
+                <Name>PurchaseProduct</Name>
+                <Description>Inicia a compra de um produto específico.</Description>
+                <JavaScript>cordova.plugins.SeuPluginIAP_CordovaPurchase.purchaseProduct($parameters.ProductId, $actions.OnOrderInitiated, $actions.OnOrderError);</JavaScript>
+                <Callback>OnOrderInitiated</Callback>
+                <Callback>OnOrderError</Callback>
+                <Parameters>
+                    <Parameter>
+                        <Name>ProductId</Name>
+                        <DataType>Text</DataType>
+                    </Parameter>
+                </Parameters>
+            </Action>
+            <Action>
+                <Name>RestorePurchases</Name>
+                <Description>Restaura compras anteriores do utilizador.</Description>
+                <JavaScript>cordova.plugins.SeuPluginIAP_CordovaPurchase.restorePurchases($actions.OnRestoreStarted, $actions.OnRestoreError);</JavaScript>
+                <Callback>OnRestoreStarted</Callback>
+                <Callback>OnRestoreError</Callback>
+            </Action>
+            <Action>
+                <Name>GetProductDetails</Name>
+                <Description>Obtém os detalhes de um produto já registado.</Description>
+                <JavaScript>cordova.plugins.SeuPluginIAP_CordovaPurchase.getProductDetails($parameters.ProductId, $actions.OnProductDetailsSuccess, $actions.OnProductDetailsError);</JavaScript>
+                <Callback>OnProductDetailsSuccess</Callback>
+                <Callback>OnProductDetailsError</Callback>
+                <Parameters>
+                    <Parameter>
+                        <Name>ProductId</Name>
+                        <DataType>Text</DataType>
+                    </Parameter>
+                </Parameters>
+            </Action>
+            <Action>
+                <Name>FinishTransaction</Name>
+                <Description>Finaliza uma transação (chamar após verificação e provisionamento do produto).</Description>
+                <JavaScript>cordova.plugins.SeuPluginIAP_CordovaPurchase.finishTransaction($parameters.ProductJsonFromEvent, $actions.OnFinishSuccess, $actions.OnFinishError);</JavaScript>
+                <Callback>OnFinishSuccess</Callback>
+                <Callback>OnFinishError</Callback>
+                <Parameters>
+                    <Parameter>
+                        <Name>ProductJsonFromEvent</Name>
+                        <DataType>Text</DataType>
+                        <Description>O objeto 'product' ou 'receipt' (em JSON string) recebido no evento approved/verified.</Description>
+                    </Parameter>
+                </Parameters>
+            </Action>
+        </Actions>
+    </outsystems>
+</plugin>
