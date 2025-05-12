@@ -1,6 +1,6 @@
 {
     "plugin": {
-        "url": "https://github.com/nn-felix/SeuPluginIAP_CordovaPurchase.git"
+        "url": "https://github.com/nn-felix/cordova-plugin-purchase.git"
     }
    
 }
